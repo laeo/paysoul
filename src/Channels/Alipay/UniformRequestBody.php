@@ -1,8 +1,8 @@
 <?php
 
-namespace Paysoul\Channels\Alipay;
+namespace Doubear\Paysoul\Channels\Alipay;
 
-use Paysoul\Contracts\Transaction;
+use Doubear\Paysoul\Contracts\Transaction;
 
 class UniformRequestBody
 {

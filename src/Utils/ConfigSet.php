@@ -1,6 +1,6 @@
 <?php
 
-namespace Paysoul\Utils;
+namespace Doubear\Paysoul\Utils;
 
 class ConfigSet
 {

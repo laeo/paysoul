@@ -1,5 +1,5 @@
 {
-    "name": "root/paysoul",
+    "name": "doubear/paysoul",
     "description": "支付宝和微信收款SDK整合",
     "type": "library",
     "license": "MIT",
@@ -9,7 +9,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Paysoul\\": "src/"
+            "Doubear\\Paysoul\\": "src/"
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Paysoul\Channels\Alipay\Interfaces;
+namespace Doubear\Paysoul\Channels\Alipay\Interfaces;
 
 /**
  * 支付宝统一收单交易预创建接口

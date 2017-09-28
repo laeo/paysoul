@@ -1,6 +1,6 @@
 <?php
 
-namespace Paysoul\Contracts;
+namespace Doubear\Paysoul\Contracts;
 
 /**
  * 交易接口抽象接口类

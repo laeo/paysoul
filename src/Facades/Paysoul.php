@@ -1,6 +1,6 @@
 <?php
 
-namespace Paysoul\Facades;
+namespace Doubear\Paysoul\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

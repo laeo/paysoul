@@ -1,6 +1,6 @@
 <?php
 
-namespace Paysoul\Channels\Alipay;
+namespace Doubear\Paysoul\Channels\Alipay;
 
 class FakeOpenSSL
 {

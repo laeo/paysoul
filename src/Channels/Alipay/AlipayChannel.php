@@ -1,11 +1,11 @@
 <?php
 
-namespace Paysoul\Channels\Alipay;
+namespace Doubear\Paysoul\Channels\Alipay;
 
-use Paysoul\Contracts\Channel;
-use Paysoul\Contracts\Transaction;
-use Paysoul\Exceptions\ChannelInterfaceNotFoundException;
-use Paysoul\Utils\ConfigSet;
+use Doubear\Paysoul\Contracts\Channel;
+use Doubear\Paysoul\Contracts\Transaction;
+use Doubear\Paysoul\Exceptions\ChannelInterfaceNotFoundException;
+use Doubear\Paysoul\Utils\ConfigSet;
 
 class AlipayChannel implements Channel
 {

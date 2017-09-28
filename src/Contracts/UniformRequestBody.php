@@ -1,6 +1,6 @@
 <?php
 
-namespace Paysoul\Contracts;
+namespace Doubear\Paysoul\Contracts;
 
 interface UniformRequestBody
 {

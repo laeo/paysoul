@@ -1,6 +1,6 @@
 <?php
 
-namespace Paysoul\Exceptions;
+namespace Doubear\Paysoul\Exceptions;
 
 use Exception;
 

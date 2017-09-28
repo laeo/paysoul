@@ -1,13 +1,13 @@
 <?php
 
-namespace Paysoul\Channels\Alipay\Interfaces;
+namespace Doubear\Paysoul\Channels\Alipay\Interfaces;
 
-use Paysoul\Channels\Alipay\FakeOpenSSL;
-use Paysoul\Channels\Alipay\InterfaceRequest;
-use Paysoul\Channels\Alipay\UniformRequestBody;
-use Paysoul\Contracts\ChannelInterface;
-use Paysoul\Transaction;
-use Paysoul\Utils\ConfigSet;
+use Doubear\Paysoul\Channels\Alipay\FakeOpenSSL;
+use Doubear\Paysoul\Channels\Alipay\InterfaceRequest;
+use Doubear\Paysoul\Channels\Alipay\UniformRequestBody;
+use Doubear\Paysoul\Contracts\ChannelInterface;
+use Doubear\Paysoul\Transaction;
+use Doubear\Paysoul\Utils\ConfigSet;
 
 abstract class AbstractAlipayTrade implements ChannelInterface
 {

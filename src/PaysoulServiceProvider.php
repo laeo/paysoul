@@ -1,6 +1,6 @@
 <?php
 
-namespace Paysoul;
+namespace Doubear\Paysoul;
 
 use Illuminate\Support\ServiceProvider;
 

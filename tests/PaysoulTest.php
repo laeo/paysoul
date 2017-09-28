@@ -1,7 +1,9 @@
 <?php
 
-use Paysoul\Paysoul;
-use Paysoul\Transaction;
+require_once '../vendor/autoload.php';
+
+use Doubear\Paysoul\Paysoul;
+use Doubear\Paysoul\Transaction;
 
 class PaysoulTest
 {
@@ -26,3 +28,6 @@ function with($value)
 {
     return $value;
 }
+
+$test = new PaysoulTest();
+$test->testPaysoul();

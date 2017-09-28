@@ -1,9 +1,9 @@
 <?php
 
-namespace Paysoul;
+namespace Doubear\Paysoul;
 
-use Paysoul\Contracts\Transaction as TransactionContract;
-use Paysoul\Contracts\UniformRequestBody;
+use Doubear\Paysoul\Contracts\Transaction as TransactionContract;
+use Doubear\Paysoul\Contracts\UniformRequestBody;
 
 /**
  * 交易参数抽象对象，便于快速创建标准交易

@@ -1,8 +1,8 @@
 <?php
 
-namespace Paysoul\Contracts;
+namespace Doubear\Paysoul\Contracts;
 
-use Paysoul\Utils\ConfigSet;
+use Doubear\Paysoul\Utils\ConfigSet;
 
 /**
  * Channel Contract

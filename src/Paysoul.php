@@ -1,9 +1,9 @@
 <?php
 
-namespace Paysoul;
+namespace Doubear\Paysoul;
 
-use Paysoul\Exceptions\ChannelNotFoundException;
-use Paysoul\Utils\ConfigSet;
+use Doubear\Paysoul\Exceptions\ChannelNotFoundException;
+use Doubear\Paysoul\Utils\ConfigSet;
 
 class Paysoul
 {
