@@ -138,10 +138,6 @@ class ScanInterface implements ChannelInterface
 
         $responseString = $this->sendHttpRequest($payload);
 
-        // $response = new InterfaceResponse($responseString, function (array $data) {
-        //     return $this->openssl->verify($data, $data['sign'], ['sign']);
-        // });
-
         $response = $this->handleHttpResponse($responseString, 'alipay_trade_precreate_response');
 
         return $response->qr_code;
