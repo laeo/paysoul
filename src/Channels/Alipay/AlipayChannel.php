@@ -2,10 +2,10 @@
 
 namespace Doubear\Paysoul\Channels\Alipay;
 
-use Doubear\Paysoul\Channels\Alipay\Interfaces\AlipayTradeScan;
+use Doubear\Paysoul\Channels\Alipay\Interfaces\ScanInterface;
 use Doubear\Paysoul\Contracts\Channel;
-use Doubear\Paysoul\Contracts\Transaction;
 use Doubear\Paysoul\Exceptions\ChannelInterfaceNotFoundException;
+use Doubear\Paysoul\Trade;
 use Doubear\Paysoul\Utils\ConfigSet;
 
 class AlipayChannel implements Channel
@@ -16,7 +16,7 @@ class AlipayChannel implements Channel
      * @var array
      */
     protected $interfaces = [
-        'alipay.scan' => AlipayTradeScan::class,
+        'alipay.scan' => ScanInterface::class,
     ];
 
     protected $channel;
@@ -43,13 +43,13 @@ class AlipayChannel implements Channel
     /**
      * 分发支付宝订单到对应接口
      *
-     * @param  Transaction $trans
+     * @param  Trade $trade
      *
      * @throws ChannelInterfaceNotFoundException
      *
      * @return mixed
      */
-    public function deal(Transaction $trans)
+    public function deal(Trade $trade)
     {
         if (false === isset($this->interfaces[$this->channel])) {
             throw new ChannelInterfaceNotFoundException($this->channel);
@@ -57,6 +57,6 @@ class AlipayChannel implements Channel
 
         $channelInterface = new $this->interfaces[$this->channel]($this->config);
 
-        return $channelInterface->deal($trans);
+        return $channelInterface->deal($trade);
     }
 }
