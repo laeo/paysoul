@@ -40,7 +40,7 @@ class Transaction implements TransactionContract
      * @param string $subject 交易类目
      * @param integer $amount 交易金额，单位分
      */
-    public function __construct(string $serialId, string $subject, integer $amount)
+    public function __construct(string $serialId, string $subject, int $amount)
     {
         $this->serialId = $serialId;
         $this->subject  = $subject;
@@ -72,7 +72,7 @@ class Transaction implements TransactionContract
      *
      * @param integer $amount 单位分
      */
-    public function setAmount(integer $amount)
+    public function setAmount(int $amount)
     {
         $this->amount = $amount;
     }

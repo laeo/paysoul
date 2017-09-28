@@ -3,8 +3,9 @@
 namespace Doubear\Paysoul\Channels\Alipay;
 
 use Doubear\Paysoul\Contracts\Transaction;
+use Doubear\Paysoul\Contracts\UniformRequestBody as UniformRequestBodyContract;
 
-class UniformRequestBody
+class UniformRequestBody implements UniformRequestBodyContract
 {
     private $body = [];
 
@@ -13,7 +14,7 @@ class UniformRequestBody
         $trans->mergeTo($this);
     }
 
-    public function append($key, $value)
+    public function append(string $key, string $value)
     {
         $this->body[$key] = $value;
     }

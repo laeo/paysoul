@@ -2,6 +2,7 @@
 
 namespace Doubear\Paysoul\Channels\Alipay;
 
+use Doubear\Paysoul\Channels\Alipay\Interfaces\AlipayTradeScan;
 use Doubear\Paysoul\Contracts\Channel;
 use Doubear\Paysoul\Contracts\Transaction;
 use Doubear\Paysoul\Exceptions\ChannelInterfaceNotFoundException;
@@ -15,7 +16,7 @@ class AlipayChannel implements Channel
      * @var array
      */
     protected $interfaces = [
-        'alipay.scan' => Paysoul\Channels\Alipay\Interfaces\AlipayTradeScan::class,
+        'alipay.scan' => AlipayTradeScan::class,
     ];
 
     protected $channel;

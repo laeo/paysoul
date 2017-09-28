@@ -6,7 +6,7 @@ use Doubear\Paysoul\Channels\Alipay\FakeOpenSSL;
 use Doubear\Paysoul\Channels\Alipay\InterfaceRequest;
 use Doubear\Paysoul\Channels\Alipay\UniformRequestBody;
 use Doubear\Paysoul\Contracts\ChannelInterface;
-use Doubear\Paysoul\Transaction;
+use Doubear\Paysoul\Contracts\Transaction;
 use Doubear\Paysoul\Utils\ConfigSet;
 
 abstract class AbstractAlipayTrade implements ChannelInterface

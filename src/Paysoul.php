@@ -2,6 +2,7 @@
 
 namespace Doubear\Paysoul;
 
+use Doubear\Paysoul\Channels\Alipay\AlipayChannel;
 use Doubear\Paysoul\Exceptions\ChannelNotFoundException;
 use Doubear\Paysoul\Utils\ConfigSet;
 
@@ -13,7 +14,7 @@ class Paysoul
      * @var array
      */
     protected $channels = [
-        'alipay' => Paysoul\Channels\Alipay\AlipayChannel::class,
+        'alipay' => AlipayChannel::class,
     ];
 
     /**

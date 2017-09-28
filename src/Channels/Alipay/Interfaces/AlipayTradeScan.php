@@ -7,7 +7,7 @@ namespace Doubear\Paysoul\Channels\Alipay\Interfaces;
  */
 class AlipayTradeScan extends AbstractAlipayTrade
 {
-    public function getMethod()
+    public function getMethod(): string
     {
         return 'alipay.trade.precreate';
     }
