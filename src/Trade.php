@@ -21,8 +21,8 @@ class Trade implements Jsonable
     public function __construct(string $serialId, string $subject, int $amount)
     {
         $this->data['out_trade_no'] = $serialId;
-        $this->data['subject']  = $subject;
-        $this->data['total_amount']   = $amount;
+        $this->data['subject']      = $subject;
+        $this->data['total_amount'] = number_format($amount / 100, 2);
     }
 
     /**
@@ -52,7 +52,7 @@ class Trade implements Jsonable
      */
     public function setAmount(int $amount)
     {
-        $this->data['total_amount'] = $amount;
+        $this->data['total_amount'] = number_format($amount / 100, 2);
     }
 
     /**
