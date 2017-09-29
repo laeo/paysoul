@@ -10,6 +10,9 @@
     "autoload": {
         "psr-4": {
             "Doubear\\Paysoul\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     }
 }

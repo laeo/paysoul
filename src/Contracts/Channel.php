@@ -3,6 +3,7 @@
 namespace Doubear\Paysoul\Contracts;
 
 use Doubear\Paysoul\Utils\ConfigSet;
+use Doubear\Paysoul\Trade;
 
 /**
  * Channel Contract
@@ -18,5 +19,5 @@ interface Channel
      *
      * @return mixed
      */
-    public function deal(Transaction $trans);
+    // public function deal(Trade $trade);
 }

@@ -4,7 +4,7 @@ namespace Doubear\Paysoul\Exceptions;
 
 use Exception;
 
-class ChannelRequestException extends Exception
+class UnsupportedActionException extends Exception
 {
 
 }
