@@ -18,4 +18,5 @@ interface ChannelInterface
     public function cancel(Cancel $cancel);
     public function close(Close $close);
     public function query(Query $query);
+    public function verify(array $args);
 }

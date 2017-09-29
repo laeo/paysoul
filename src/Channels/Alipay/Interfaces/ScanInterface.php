@@ -192,4 +192,9 @@ class ScanInterface implements ChannelInterface
 
         return $this->handleHttpResponse($responseText, 'alipay_trade_close_response');
     }
+
+    public function verify(array $args)
+    {
+        return $this->openssl->verify($args, $args['sign'], ['sign']);
+    }
 }
