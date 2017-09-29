@@ -5,6 +5,7 @@ namespace Doubear\Paysoul\Channels\Alipay;
 use Doubear\Paysoul\Channels\Alipay\Interfaces\ScanInterface;
 use Doubear\Paysoul\Contracts\Channel;
 use Doubear\Paysoul\Exceptions\ChannelInterfaceNotFoundException;
+use Doubear\Paysoul\Exceptions\UnsupportedActionException;
 use Doubear\Paysoul\Trade;
 use Doubear\Paysoul\Utils\ConfigSet;
 
@@ -40,6 +41,15 @@ class AlipayChannel implements Channel
         $this->config  = $config;
     }
 
+    protected function invoke()
+    {
+        if (false === isset($this->interfaces[$this->channel])) {
+            throw new ChannelInterfaceNotFoundException($this->channel);
+        }
+
+        return new $this->interfaces[$this->channel]($this->config);
+    }
+
     /**
      * 分发支付宝订单到对应接口
      *
@@ -49,14 +59,18 @@ class AlipayChannel implements Channel
      *
      * @return mixed
      */
-    public function deal(Trade $trade)
+    // public function deal(Trade $trade)
+    // {
+    //     return $this->invoke()->deal($trade);
+    // }
+
+    public function __call($m, $args)
     {
-        if (false === isset($this->interfaces[$this->channel])) {
-            throw new ChannelInterfaceNotFoundException($this->channel);
+        $invoked = $this->invoke();
+        if (method_exists($invoked, $m)) {
+            return call_user_func_array([$invoked, $m], $args);
         }
 
-        $channelInterface = new $this->interfaces[$this->channel]($this->config);
-
-        return $channelInterface->deal($trade);
+        throw new UnsupportedActionException('unsupported channel action was called ' . $m);
     }
 }

@@ -19,5 +19,5 @@ interface Channel
      *
      * @return mixed
      */
-    public function deal(Trade $trade);
+    // public function deal(Trade $trade);
 }

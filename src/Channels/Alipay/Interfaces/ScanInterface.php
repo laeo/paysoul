@@ -3,9 +3,13 @@
 namespace Doubear\Paysoul\Channels\Alipay\Interfaces;
 
 use ArrayObject;
+use Doubear\Paysoul\Cancel;
 use Doubear\Paysoul\Channels\Alipay\FakeOpenSSL;
+use Doubear\Paysoul\Close;
 use Doubear\Paysoul\Contracts\ChannelInterface;
 use Doubear\Paysoul\Exceptions\HttpException;
+use Doubear\Paysoul\Query;
+use Doubear\Paysoul\Refund;
 use Doubear\Paysoul\Trade;
 use Doubear\Paysoul\Utils\ConfigSet;
 use Doubear\Paysoul\with;
@@ -136,20 +140,56 @@ class ScanInterface implements ChannelInterface
         $payload['biz_content'] = $trade->toJson();
         $payload['sign']        = $this->openssl->sign(array_filter($payload));
 
-        $responseString = $this->sendHttpRequest($payload);
+        $responseText = $this->sendHttpRequest($payload);
 
-        $response = $this->handleHttpResponse($responseString, 'alipay_trade_precreate_response');
+        $response = $this->handleHttpResponse($responseText, 'alipay_trade_precreate_response');
 
         return $response->qr_code;
     }
 
-    public function refund()
+    public function refund(Refund $refund)
     {
+        $payload                = $this->getRequestBody('alipay.trade.refund');
+        $payload['biz_content'] = $refund->toJson();
+        $payload['sign']        = $this->openssl->sign(array_filter($payload));
 
+        $responseText = $this->sendHttpRequest($payload);
+
+        return $this->handleHttpResponse($responseText, 'alipay_trade_refund_response');
     }
 
-    public function cancel($outTradeNo)
+    public function cancel(Cancel $cancel)
     {
+        $payload                = $this->getRequestBody('alipay.trade.cancel');
+        $payload['biz_content'] = $cancel->toJson();
+        $payload['sign']        = $this->openssl->sign(array_filter($payload));
 
+        $responseText = $this->sendHttpRequest($payload);
+
+        $response = $this->handleHttpResponse($responseText, 'alipay_trade_cancel_response');
+
+        return $response;
+    }
+
+    public function query(Query $query)
+    {
+        $payload                = $this->getRequestBody('alipay.trade.query');
+        $payload['biz_content'] = $query->toJson();
+        $payload['sign']        = $this->openssl->sign(array_filter($payload));
+
+        $responseText = $this->sendHttpRequest($payload);
+
+        return $this->handleHttpResponse($responseText, 'alipay_trade_query_response');
+    }
+
+    public function close(Close $close)
+    {
+        $payload                = $this->getRequestBody('alipay.trade.close');
+        $payload['biz_content'] = $close->toJson();
+        $payload['sign']        = $this->openssl->sign(array_filter($payload));
+
+        $responseText = $this->sendHttpRequest($payload);
+
+        return $this->handleHttpResponse($responseText, 'alipay_trade_close_response');
     }
 }
