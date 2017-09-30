@@ -3,7 +3,7 @@
 namespace Doubear\Paysoul\Channels\Alipay\Interfaces;
 
 use ArrayObject;
-use Doubear\Paysoul\Cancel;
+use Closure;
 use Doubear\Paysoul\Channels\Alipay\FakeOpenSSL;
 use Doubear\Paysoul\Close;
 use Doubear\Paysoul\Contracts\ChannelInterface;
@@ -134,11 +134,17 @@ class ScanInterface implements ChannelInterface
      * @param  Trade $trade
      * @return [type]
      */
-    public function deal(Trade $trade)
+    public function deal($id, $subject, int $amount, array $extra = [])
     {
-        $payload                = $this->getRequestBody('alipay.trade.precreate');
-        $payload['biz_content'] = $trade->toJson();
-        $payload['sign']        = $this->openssl->sign(array_filter($payload));
+        $payload = $this->getRequestBody('alipay.trade.precreate');
+
+        $payload['biz_content'] = json_encode(array_merge([
+            'out_trade_no' => $id,
+            'subject'      => $subject,
+            'total_amount' => $amount,
+        ], $extra));
+
+        $payload['sign'] = $this->openssl->sign(array_filter($payload));
 
         $responseText = $this->sendHttpRequest($payload);
 
@@ -147,34 +153,38 @@ class ScanInterface implements ChannelInterface
         return $response->qr_code;
     }
 
-    public function refund(Refund $refund)
+    public function refund($id, $reqId, int $amount, int $total)
     {
-        $payload                = $this->getRequestBody('alipay.trade.refund');
-        $payload['biz_content'] = $refund->toJson();
-        $payload['sign']        = $this->openssl->sign(array_filter($payload));
+        $payload = $this->getRequestBody('alipay.trade.refund');
+
+        $payload['biz_content'] = json_encode([
+            'out_trade_no'   => $id,
+            'refund_amount'  => number_format($amount / 100, 2),
+            'out_request_no' => $reqId,
+        ]);
+
+        $payload['sign'] = $this->openssl->sign(array_filter($payload));
 
         $responseText = $this->sendHttpRequest($payload);
 
         return $this->handleHttpResponse($responseText, 'alipay_trade_refund_response');
     }
 
-    public function cancel(Cancel $cancel)
+    public function refundQuery($reqId)
     {
-        $payload                = $this->getRequestBody('alipay.trade.cancel');
-        $payload['biz_content'] = $cancel->toJson();
+        $payload                = $this->getRequestBody('alipay.trade.fastpay.refund.query');
+        $payload['biz_content'] = json_encode(['out_request_no' => $reqId]);
         $payload['sign']        = $this->openssl->sign(array_filter($payload));
 
         $responseText = $this->sendHttpRequest($payload);
 
-        $response = $this->handleHttpResponse($responseText, 'alipay_trade_cancel_response');
-
-        return $response;
+        return $this->handleHttpResponse($responseText, 'alipay_trade_fastpay_refund_query_response');
     }
 
-    public function query(Query $query)
+    public function query($id)
     {
         $payload                = $this->getRequestBody('alipay.trade.query');
-        $payload['biz_content'] = $query->toJson();
+        $payload['biz_content'] = json_encode(['out_trade_no' => $id]);
         $payload['sign']        = $this->openssl->sign(array_filter($payload));
 
         $responseText = $this->sendHttpRequest($payload);
@@ -182,19 +192,44 @@ class ScanInterface implements ChannelInterface
         return $this->handleHttpResponse($responseText, 'alipay_trade_query_response');
     }
 
-    public function close(Close $close)
+    public function close($id)
     {
         $payload                = $this->getRequestBody('alipay.trade.close');
-        $payload['biz_content'] = $close->toJson();
+        $payload['biz_content'] = json_encode(['out_trade_no' => $id]);
         $payload['sign']        = $this->openssl->sign(array_filter($payload));
 
         $responseText = $this->sendHttpRequest($payload);
 
-        return $this->handleHttpResponse($responseText, 'alipay_trade_close_response');
+        $response = $this->handleHttpResponse($responseText, 'alipay_trade_close_response');
+
+        return true;
     }
 
-    public function verify(array $args)
+    public function verify($args)
     {
+        if (false === is_array($args)) {
+            return false;
+        }
+
+        if (false === isset($args['sign'])) {
+            return false;
+        }
+
         return $this->openssl->verify($args, $args['sign'], ['sign']);
+    }
+
+    public function notify($payload, Closure $success, Closure $failure)
+    {
+        try {
+            $response = $this->handleHttpResponse($payload);
+            return $success($this, $response);
+        } catch (HttpException $e) {
+            return $failure($this, $e);
+        }
+    }
+
+    public function respond($ok = false)
+    {
+        return $ok ? 'success' : 'failure';
     }
 }

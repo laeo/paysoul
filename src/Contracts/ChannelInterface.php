@@ -2,21 +2,19 @@
 
 namespace Doubear\Paysoul\Contracts;
 
-use Doubear\Paysoul\Cancel;
-use Doubear\Paysoul\Close;
-use Doubear\Paysoul\Query;
-use Doubear\Paysoul\Refund;
-use Doubear\Paysoul\Trade;
+use Closure;
 
 /**
  * 交易接口抽象接口类
  */
 interface ChannelInterface
 {
-    public function deal(Trade $trade);
-    public function refund(Refund $refund);
-    public function cancel(Cancel $cancel);
-    public function close(Close $close);
-    public function query(Query $query);
-    public function verify(array $args);
+    public function deal($id, $subject, int $amount, array $extra = []);
+    public function refund($id, $reqId, int $amount, int $total);
+    public function refundQuery($reqId);
+    public function close($id);
+    public function query($id);
+    public function verify($args);
+    public function respond($ok);
+    public function notify($payload, Closure $success, Closure $failure);
 }
