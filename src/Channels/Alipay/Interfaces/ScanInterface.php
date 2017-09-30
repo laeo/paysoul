@@ -146,7 +146,7 @@ class ScanInterface implements ChannelInterface
         $payload['biz_content'] = json_encode(array_merge([
             'out_trade_no' => $id,
             'subject'      => $subject,
-            'total_amount' => $amount,
+            'total_amount' => bcdiv($amount, '100', 2),
         ], $extra));
 
         $payload['sign'] = $this->openssl->sign(array_filter($payload));
@@ -164,7 +164,7 @@ class ScanInterface implements ChannelInterface
 
         $payload['biz_content'] = json_encode([
             'out_trade_no'   => $id,
-            'refund_amount'  => number_format($amount / 100, 2),
+            'refund_amount'  => bcdiv($amount, '100', 2),
             'out_request_no' => $reqId,
         ]);
 
