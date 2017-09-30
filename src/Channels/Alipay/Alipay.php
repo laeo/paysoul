@@ -3,12 +3,11 @@
 namespace Doubear\Paysoul\Channels\Alipay;
 
 use Doubear\Paysoul\Channels\Alipay\Interfaces\ScanInterface;
-use Doubear\Paysoul\Contracts\Channel;
 use Doubear\Paysoul\Exceptions\ChannelInterfaceNotFoundException;
 use Doubear\Paysoul\Exceptions\UnsupportedActionException;
-use Doubear\Paysoul\Utils\ConfigSet;
+use Doubear\Paysoul\Utils\SensitiveArray;
 
-class AlipayChannel implements Channel
+class Alipay
 {
     /**
      * 注册收单接口
@@ -24,7 +23,7 @@ class AlipayChannel implements Channel
     /**
      * 接口配置信息
      *
-     * @var ConfigSet
+     * @var SensitiveArray
      */
     protected $config;
 
@@ -34,7 +33,7 @@ class AlipayChannel implements Channel
      * @param string $channel
      * @param array  $config
      */
-    public function __construct(string $channel, ConfigSet $config)
+    public function __construct(string $channel, SensitiveArray $config)
     {
         $this->channel = $channel;
         $this->config  = $config;

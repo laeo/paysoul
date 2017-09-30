@@ -2,12 +2,11 @@
 
 namespace Doubear\Paysoul\Channels\Wxpay\Interfaces;
 
-use ArrayObject;
 use Closure;
 use Doubear\Paysoul\Contracts\ChannelInterface;
 use Doubear\Paysoul\Exceptions\HttpException;
-use Doubear\Paysoul\Utils\ConfigSet;
 use Doubear\Paysoul\Utils\HttpClient;
+use Doubear\Paysoul\Utils\SensitiveArray;
 
 class ScanInterface implements ChannelInterface
 {
@@ -17,7 +16,7 @@ class ScanInterface implements ChannelInterface
 
     protected $http;
 
-    public function __construct(ConfigSet $config)
+    public function __construct(SensitiveArray $config)
     {
         $this->config = $config;
 
@@ -117,7 +116,7 @@ class ScanInterface implements ChannelInterface
     protected function handleHttpResponse(string $responseText)
     {
         $data     = $this->fromXml($responseText);
-        $response = new ArrayObject($data, 3);
+        $response = new SensitiveArray($data, false);
 
         if (false === $this->verify($data)) {
             throw new HttpException('签名校验失败');

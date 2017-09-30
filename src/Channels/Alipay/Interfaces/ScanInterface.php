@@ -2,18 +2,12 @@
 
 namespace Doubear\Paysoul\Channels\Alipay\Interfaces;
 
-use ArrayObject;
 use Closure;
 use Doubear\Paysoul\Channels\Alipay\FakeOpenSSL;
-use Doubear\Paysoul\Close;
 use Doubear\Paysoul\Contracts\ChannelInterface;
 use Doubear\Paysoul\Exceptions\HttpException;
-use Doubear\Paysoul\Query;
-use Doubear\Paysoul\Refund;
-use Doubear\Paysoul\Trade;
-use Doubear\Paysoul\Utils\ConfigSet;
-use Doubear\Paysoul\with;
-use GuzzleHttp\Client;
+use Doubear\Paysoul\Utils\HttpClient;
+use Doubear\Paysoul\Utils\SensitiveArray;
 
 class ScanInterface implements ChannelInterface
 {
@@ -27,7 +21,7 @@ class ScanInterface implements ChannelInterface
     /**
      * 支付渠道配置信息
      *
-     * @var ConfigSet
+     * @var SensitiveArray
      */
     protected $config;
 
@@ -37,9 +31,14 @@ class ScanInterface implements ChannelInterface
     protected $openssl;
 
     /**
+     * @var HttpClient
+     */
+    protected $http;
+
+    /**
      * 创建交易接口实例
      */
-    final public function __construct(ConfigSet $config)
+    final public function __construct(SensitiveArray $config)
     {
         $this->config = $config;
 
@@ -49,6 +48,10 @@ class ScanInterface implements ChannelInterface
         }
 
         $this->openssl = new FakeOpenSSL($config->get('merchant_private_key'), $config->get('alipay_public_key'));
+
+        $this->http = new HttpClient([
+            CURLOPT_TIMEOUT => 5,
+        ]);
     }
 
     /**
@@ -91,18 +94,20 @@ class ScanInterface implements ChannelInterface
     protected function sendHttpRequest(array $payload)
     {
         $url      = $this->gateway . '?' . http_build_query($payload);
-        $response = with(new Client())->get($url);
+        $response = $this->http->get($url);
 
         //智障阿里开发，招的都特么什么鬼
         // $response = with(new Client())->post($this->gateway(), [
         //     'form_params' => $payload,
         // ]);
 
-        if ($response->getStatusCode() !== 200) {
-            throw new HttpException($response->getReasonPhrase(), $response->getStatusCode());
-        }
+        // if ($response->getStatusCode() !== 200) {
+        //     throw new HttpException($response->getReasonPhrase(), $response->getStatusCode());
+        // }
 
-        return $response->getBody()->getContents();
+        // return $response->getBody()->getContents();
+
+        return $response;
     }
 
     protected function handleHttpResponse(string $responseText, string $key)
@@ -113,13 +118,13 @@ class ScanInterface implements ChannelInterface
             throw new HttpException('cannot parses response to JSON: ' . $responseText);
         }
 
-        $dataObj = new ArrayObject($data, 3);
+        $dataObj = new SensitiveArray($data, false);
 
         if ($this->openssl->verify($data, $dataObj->sign, ['sign'])) {
             throw new HttpException('signature verification failed');
         }
 
-        $data = new ArrayObject($data[$key], 3);
+        $data = new SensitiveArray($data[$key], false);
 
         if ($data->code !== '10000') {
             throw new HttpException($data->sub_msg ?: $data->msg, $data->code);

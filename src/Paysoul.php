@@ -2,9 +2,10 @@
 
 namespace Doubear\Paysoul;
 
-use Doubear\Paysoul\Channels\Alipay\AlipayChannel;
+use Doubear\Paysoul\Channels\Alipay\Alipay;
+use Doubear\Paysoul\Channels\Wxpay\Wxpay;
 use Doubear\Paysoul\Exceptions\ChannelNotFoundException;
-use Doubear\Paysoul\Utils\ConfigSet;
+use Doubear\Paysoul\Utils\SensitiveArray;
 
 class Paysoul
 {
@@ -14,13 +15,14 @@ class Paysoul
      * @var array
      */
     protected $channels = [
-        'alipay' => AlipayChannel::class,
+        'alipay' => Alipay::class,
+        'wxpay'  => Wxpay::class,
     ];
 
     /**
      * 支付渠道配置数据
      *
-     * @var ConfigSet
+     * @var SensitiveArray
      */
     protected $config = [];
 
@@ -31,7 +33,7 @@ class Paysoul
      */
     public function __construct(array $config)
     {
-        $this->config = new ConfigSet($config);
+        $this->config = new SensitiveArray($config);
     }
 
     /**
@@ -51,7 +53,7 @@ class Paysoul
         if (isset($this->channels[$c])) {
             return new $this->channels[$c](
                 $channel
-                , new ConfigSet($config)
+                , new SensitiveArray($config)
             );
         }
 
