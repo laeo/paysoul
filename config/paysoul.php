@@ -10,7 +10,7 @@ return [
         'alipay_public_key'    => '',
     ],
 
-    'wechat' => [
+    'wxpay' => [
 
         /**
          * 用于标记是否启用沙盒模式

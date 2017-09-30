@@ -39,25 +39,25 @@ class Paysoul
     /**
      * 动态创建渠道接口实例
      *
-     * @param  string $channel 渠道名称
+     * @param  string $command 渠道调用指令
      *
      * @throws Paysoul\Exceptions\ChannelNotFoundException
      *
      * @return Paysoul\Contracts\Channel
      */
-    public function channel($channel)
+    public function channel($command)
     {
-        $c      = $this->clean($channel);
-        $config = $this->config->get($c, []);
+        $channel = $this->clean($command);
+        $config  = $this->config->get($channel, []);
 
-        if (isset($this->channels[$c])) {
-            return new $this->channels[$c](
-                $channel
+        if (isset($this->channels[$channel])) {
+            return new $this->channels[$channel](
+                $command
                 , new SensitiveArray($config)
             );
         }
 
-        throw new ChannelNotFoundException($c);
+        throw new ChannelNotFoundException($channel);
     }
 
     private function clean(string $channel): string
