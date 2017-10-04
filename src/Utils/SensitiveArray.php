@@ -23,7 +23,7 @@ class SensitiveArray implements ArrayAccess
 
     public function has(string $key): bool
     {
-        return isset($this->__data[$key]);
+        return array_key_exists($key, $this->__data);
     }
 
     public function get(string $key, $default = null)
