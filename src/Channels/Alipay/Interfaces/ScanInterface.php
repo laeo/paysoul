@@ -6,6 +6,7 @@ use Closure;
 use Doubear\Paysoul\Channels\Alipay\FakeOpenSSL;
 use Doubear\Paysoul\Contracts\ChannelInterface;
 use Doubear\Paysoul\Exceptions\HttpException;
+use Doubear\Paysoul\Notify;
 use Doubear\Paysoul\Utils\HttpClient;
 use Doubear\Paysoul\Utils\SensitiveArray;
 
@@ -107,9 +108,7 @@ class ScanInterface implements ChannelInterface
             throw new HttpException('cannot parses response to JSON: ' . $responseText);
         }
 
-        $dataObj = new SensitiveArray($data, false);
-
-        if ($this->openssl->verify($data, $dataObj->sign, ['sign'])) {
+        if ($this->openssl->verify($data, isset($data['sign']) ? $data['sign'] : null, ['sign'])) {
             throw new HttpException('signature verification failed');
         }
 
@@ -212,14 +211,28 @@ class ScanInterface implements ChannelInterface
         return $this->openssl->verify($args, $args['sign'], ['sign']);
     }
 
-    public function notify($payload, Closure $success, Closure $failure)
+    public function notify($data, Closure $success, Closure $failure)
     {
-        if (false === is_string($payload)) {
-            $payload = json_encode($payload);
+        if (false === is_array($data)) {
+            $data = json_decode($data);
         }
 
         try {
-            $response = $this->handleHttpResponse($payload);
+            if ($this->openssl->verify($data, isset($data['sign']) ? $data['sign'] : null, ['sign'])) {
+                throw new HttpException('signature verification failed');
+            }
+
+            $response = new Notify(
+                $data['out_trade_no']
+                , $data['trade_no']
+                , intval(bcmul($data['total_amount'], '100', 0))
+                , $data
+            );
+
+            // if ($data->code !== '10000') {
+            //     throw new HttpException($data->sub_msg ?: $data->msg, $data->code);
+            // }
+
             return $success($this, $response);
         } catch (HttpException $e) {
             return $failure($this, $e);

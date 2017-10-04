@@ -5,6 +5,7 @@ namespace Doubear\Paysoul\Channels\Wxpay\Interfaces;
 use Closure;
 use Doubear\Paysoul\Contracts\ChannelInterface;
 use Doubear\Paysoul\Exceptions\HttpException;
+use Doubear\Paysoul\Notify;
 use Doubear\Paysoul\Utils\HttpClient;
 use Doubear\Paysoul\Utils\SensitiveArray;
 
@@ -115,12 +116,18 @@ class ScanInterface implements ChannelInterface
 
     protected function handleHttpResponse(string $responseText)
     {
-        $data     = $this->fromXml($responseText);
-        $response = new SensitiveArray($data, false);
+        $data = $this->fromXml($responseText);
 
         if (false === $this->verify($data)) {
             throw new HttpException('签名校验失败');
         }
+
+        $response = new Notify(
+            $data['out_trade_no']
+            , $data['transaction_id']
+            , intval($data['total_fee'])
+            , $data
+        );
 
         if ($response->return_code != 'SUCCESS') {
             throw new HttpException($response->return_msg);
