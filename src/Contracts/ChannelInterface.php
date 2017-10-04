@@ -14,7 +14,6 @@ interface ChannelInterface
     public function refundQuery($reqId);
     public function close($id);
     public function query($id);
-    public function verify($args);
     public function respond($ok);
     public function notify($payload, Closure $success, Closure $failure);
 }

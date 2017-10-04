@@ -144,6 +144,10 @@ class ScanInterface implements ChannelInterface
 
     public function notify($payload, Closure $success, Closure $failure)
     {
+        if (false === is_string($payload)) {
+            $payload = $this->toXml($payload);
+        }
+
         try {
             $response = $this->handleHttpResponse($payload);
             return $success($this, $response);

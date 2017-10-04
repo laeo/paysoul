@@ -96,17 +96,6 @@ class ScanInterface implements ChannelInterface
         $url      = $this->gateway . '?' . http_build_query($payload);
         $response = $this->http->get($url);
 
-        //智障阿里开发，招的都特么什么鬼
-        // $response = with(new Client())->post($this->gateway(), [
-        //     'form_params' => $payload,
-        // ]);
-
-        // if ($response->getStatusCode() !== 200) {
-        //     throw new HttpException($response->getReasonPhrase(), $response->getStatusCode());
-        // }
-
-        // return $response->getBody()->getContents();
-
         return $response;
     }
 
@@ -225,6 +214,10 @@ class ScanInterface implements ChannelInterface
 
     public function notify($payload, Closure $success, Closure $failure)
     {
+        if (false === is_string($payload)) {
+            $payload = json_encode($payload);
+        }
+
         try {
             $response = $this->handleHttpResponse($payload);
             return $success($this, $response);
