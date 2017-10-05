@@ -87,16 +87,13 @@ class ScanInterface implements ChannelInterface
         ]);
     }
 
-    protected function getRequestBody($tradeType)
+    protected function getRequestBody()
     {
         return [
-            'appid'            => $this->config->get('app_id'),
-            'mch_id'           => $this->config->get('mch_id'),
-            'nonce_str'        => bin2hex(openssl_random_pseudo_bytes(16)),
-            'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
-            'notify_url'       => $this->config->get('notify_url'),
-            'trade_type'       => $tradeType,
-            'product_id'       => 0,
+            'appid'      => $this->config->get('app_id'),
+            'mch_id'     => $this->config->get('mch_id'),
+            'nonce_str'  => bin2hex(openssl_random_pseudo_bytes(16)),
+            'notify_url' => $this->config->get('notify_url'),
         ];
     }
 
@@ -110,7 +107,7 @@ class ScanInterface implements ChannelInterface
 
         ksort($data);
 
-        $s = urldecode(http_build_query($data) . '&key=' . $this->config->get('key'));
+        $s = urldecode(http_build_query($data)) . '&key=' . $this->config->get('key');
 
         return strtoupper(md5($s));
     }
@@ -170,10 +167,13 @@ class ScanInterface implements ChannelInterface
 
     public function deal($id, $subject, int $amount, array $extra = [])
     {
-        $data = array_merge($this->getRequestBody('NATIVE'), [
-            'out_trade_no' => $id,
-            'body'         => $subject,
-            'total_fee'    => $amount,
+        $data = array_merge($this->getRequestBody(), [
+            'out_trade_no'     => $id,
+            'body'             => $subject,
+            'total_fee'        => $amount,
+            'product_id'       => ''+$id,
+            'trade_type'       => 'NATIVE',
+            'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
         ], $extra);
 
         $data['sign'] = $this->sign($data);
