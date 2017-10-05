@@ -21,15 +21,15 @@ class ScanInterface implements ChannelInterface
     {
         $this->config = $config;
 
-        if ($this->config->get('sandbox', false)) {
-            $this->sandbox();
-        }
-
         $this->http = new HttpClient([
             CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_TIMEOUT        => 5,
         ]);
+
+        if ($this->config->get('sandbox', false)) {
+            $this->sandbox();
+        }
 
         if ($this->sslEnabled()) {
             $this->http->set(CURLOPT_SSLCERTTYPE, 'PEM');
