@@ -132,12 +132,7 @@ class ScanInterface implements ChannelInterface
             throw new HttpException($data['err_code'] . ': ' . $data['err_code_des']);
         }
 
-        return new Notify(
-            $data['out_trade_no']
-            , $data['transaction_id']
-            , intval($data['total_fee'])
-            , $data
-        );
+        return new SensitiveArray($data);
     }
 
     public function verify(array $data)
@@ -156,8 +151,16 @@ class ScanInterface implements ChannelInterface
         }
 
         try {
-            $response = $this->handleHttpResponse($payload);
-            return $success($this, $response);
+            $data = $this->handleHttpResponse($payload);
+
+            $notify = new Notify(
+                $data->out_trade_no
+                , $data->transaction_id
+                , intval($data->total_fee)
+                , $data->toArray()
+            );
+
+            return $success($this, $notify);
         } catch (HttpException $e) {
             return $failure($this, $e);
         }
@@ -184,7 +187,7 @@ class ScanInterface implements ChannelInterface
 
     public function query($id)
     {
-        $data = array_merge($this->getRequestBody('NATIVE'), [
+        $data = array_merge($this->getRequestBody(), [
             'out_trade_no' => $id,
         ]);
 
@@ -198,7 +201,7 @@ class ScanInterface implements ChannelInterface
 
     public function close($id)
     {
-        $data = array_merge($this->getRequestBody('NATIVE'), [
+        $data = array_merge($this->getRequestBody(), [
             'out_trade_no' => $id,
         ]);
 
@@ -213,7 +216,7 @@ class ScanInterface implements ChannelInterface
 
     public function refund($id, $reqId, int $amount, int $total)
     {
-        $data = array_merge($this->getRequestBody('NATIVE'), [
+        $data = array_merge($this->getRequestBody(), [
             'out_trade_no'  => $id,
             'out_refund_no' => $reqId,
             'refund_fee'    => $amount,
@@ -230,7 +233,7 @@ class ScanInterface implements ChannelInterface
 
     public function refundQuery($reqId)
     {
-        $data = array_merge($this->getRequestBody('NATIVE'), [
+        $data = array_merge($this->getRequestBody(), [
             'out_refund_no' => $reqId,
         ]);
 
