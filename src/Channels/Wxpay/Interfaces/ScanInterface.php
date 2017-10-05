@@ -128,18 +128,16 @@ class ScanInterface implements ChannelInterface
             throw new HttpException('签名校验失败');
         }
 
-        $response = new Notify(
+        if ($data['result_code'] != 'SUCCESS') {
+            throw new HttpException($data['err_code'] . ': ' . $data['err_code_des']);
+        }
+
+        return new Notify(
             $data['out_trade_no']
             , $data['transaction_id']
             , intval($data['total_fee'])
             , $data
         );
-
-        if ($response->result_code != 'SUCCESS') {
-            throw new HttpException($response->err_code . ': ' . $response->err_code_des);
-        }
-
-        return $response;
     }
 
     public function verify(array $data)
