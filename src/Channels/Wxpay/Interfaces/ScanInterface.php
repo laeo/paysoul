@@ -42,6 +42,13 @@ class ScanInterface implements ChannelInterface
     public function sandbox()
     {
         $this->gateway = 'https://api.mch.weixin.qq.com/sandboxnew';
+
+        $sandboxKey = $this->getSandboxKey();
+        if (!$sandboxKey) {
+            throw new HttpException('获取沙盒模式签名秘钥失败');
+        }
+
+        $this->config->set('key', $sandboxKey);
     }
 
     protected function toXml(array $values)
@@ -118,6 +125,14 @@ class ScanInterface implements ChannelInterface
     {
         $data = $this->fromXml($responseText);
 
+        if (!$data) {
+            throw new HttpException('微信接口请求失败');
+        }
+
+        if ($data['return_code'] != 'SUCCESS') {
+            throw new HttpException($data['return_msg']);
+        }
+
         if (false === $this->verify($data)) {
             throw new HttpException('签名校验失败');
         }
@@ -128,10 +143,6 @@ class ScanInterface implements ChannelInterface
             , intval($data['total_fee'])
             , $data
         );
-
-        if ($response->return_code != 'SUCCESS') {
-            throw new HttpException($response->return_msg);
-        }
 
         if ($response->result_code != 'SUCCESS') {
             throw new HttpException($response->err_code . ': ' . $response->err_code_des);
@@ -247,5 +258,18 @@ class ScanInterface implements ChannelInterface
         ];
 
         return $this->toXml($response);
+    }
+
+    protected function getSandboxKey()
+    {
+        $data         = $this->getRequestBody('NATIVE');
+        $responseText = $this->sendHttpRequest('/pay/getsignkey', $data);
+        $response     = $this->fromXml($responseText);
+
+        if ($response['return_code'] == 'SUCCESS') {
+            return $response['sandbox_signkey'];
+        }
+
+        return false;
     }
 }

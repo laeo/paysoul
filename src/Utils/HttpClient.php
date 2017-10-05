@@ -20,7 +20,7 @@ class HttpClient
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 6);
-        curl_setopt_array($ch, array_merge($this->options, $options));
+        curl_setopt_array($ch, $options + $this->options);
         $return = curl_exec($ch);
         curl_close($ch);
 
