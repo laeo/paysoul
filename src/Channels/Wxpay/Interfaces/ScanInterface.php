@@ -42,13 +42,7 @@ class ScanInterface implements ChannelInterface
     public function sandbox()
     {
         $this->gateway = 'https://api.mch.weixin.qq.com/sandboxnew';
-
-        $sandboxKey = $this->getSandboxKey();
-        if (!$sandboxKey) {
-            throw new HttpException('获取沙盒模式签名秘钥失败');
-        }
-
-        $this->config->set('key', $sandboxKey);
+        $this->config->set('key', $this->getSandboxKey());
     }
 
     protected function toXml(array $values)
@@ -262,7 +256,13 @@ class ScanInterface implements ChannelInterface
 
     protected function getSandboxKey()
     {
-        $data         = $this->getRequestBody('NATIVE');
+        $data = [
+            'mch_id'    => $this->config->mch_id,
+            'nonce_str' => bin2hex(openssl_random_pseudo_bytes(16)),
+        ];
+
+        $data['sign'] = $this->sign($data);
+
         $responseText = $this->sendHttpRequest('/pay/getsignkey', $data);
         $response     = $this->fromXml($responseText);
 
@@ -270,6 +270,6 @@ class ScanInterface implements ChannelInterface
             return $response['sandbox_signkey'];
         }
 
-        return false;
+        throw new HttpException($response['return_msg']);
     }
 }
