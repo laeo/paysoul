@@ -15,5 +15,5 @@ interface Channel
     public function close($id);
     public function query($id);
     public function respond($ok);
-    public function notify($payload, Closure $success, Closure $failure);
+    public function notify($payload, Closure $cb);
 }

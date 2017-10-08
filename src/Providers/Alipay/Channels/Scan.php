@@ -211,7 +211,7 @@ class Scan implements Channel
         return $this->openssl->verify($args, $args['sign'], ['sign']);
     }
 
-    public function notify($data, Closure $success, Closure $failure)
+    public function notify($data, Closure $cb)
     {
         if (false === is_array($data)) {
             $data = json_decode($data);
@@ -222,7 +222,7 @@ class Scan implements Channel
                 throw new HttpException('signature verification failed');
             }
 
-            $response = new Notify(
+            $notify = new Notify(
                 $data['out_trade_no']
                 , $data['trade_no']
                 , intval(bcmul($data['total_amount'], '100', 0))
@@ -233,9 +233,9 @@ class Scan implements Channel
             //     throw new HttpException($data->sub_msg ?: $data->msg, $data->code);
             // }
 
-            return $success($this, $response);
+            return $cb($this, $notify, null);
         } catch (HttpException $e) {
-            return $failure($this, $e);
+            return $cb($this, null, $e);
         }
     }
 

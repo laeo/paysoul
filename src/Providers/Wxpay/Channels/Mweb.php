@@ -144,7 +144,7 @@ class Mweb implements Channel
         return $this->sign($data, ['sign']) == $data['sign'];
     }
 
-    public function notify($payload, Closure $success, Closure $failure)
+    public function notify($payload, Closure $cb)
     {
         if (false === is_string($payload)) {
             $payload = $this->toXml($payload);
@@ -160,9 +160,9 @@ class Mweb implements Channel
                 , $data->toArray()
             );
 
-            return $success($this, $notify);
+            return $cb($this, $notify, null);
         } catch (HttpException $e) {
-            return $failure($this, $e);
+            return $cb($this, null, $e);
         }
     }
 
