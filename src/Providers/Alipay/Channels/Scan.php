@@ -3,7 +3,7 @@
 namespace Doubear\Paysoul\Providers\Alipay\Channels;
 
 use Closure;
-use Doubear\Paysoul\Channels\Alipay\FakeOpenSSL;
+use Doubear\Paysoul\Providers\Alipay\FakeOpenSSL;
 use Doubear\Paysoul\Contracts\Channel;
 use Doubear\Paysoul\Exceptions\HttpException;
 use Doubear\Paysoul\Notify;
