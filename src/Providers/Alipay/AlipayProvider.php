@@ -45,11 +45,11 @@ class AlipayProvider
 
     public function __call($m, $args)
     {
-        if (false === isset($this->$commands[$this->command])) {
+        if (false === isset($this->commands[$this->command])) {
             throw new RuntimeException('alipay channel called ' . $this->command . ' not found.');
         }
 
-        $invoked = new $this->$commands[$this->command]($this->config);
+        $invoked = new $this->commands[$this->command]($this->config);
 
         if (method_exists($invoked, $m)) {
             return call_user_func_array([$invoked, $m], $args);
