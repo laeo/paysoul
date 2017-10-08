@@ -2,8 +2,8 @@
 
 namespace Doubear\Paysoul;
 
-use Doubear\Paysoul\Channels\Alipay\AlipayProvider;
-use Doubear\Paysoul\Channels\Wxpay\WxpayProvider;
+use Doubear\Paysoul\Providers\Alipay\AlipayProvider;
+use Doubear\Paysoul\Providers\Wxpay\WxpayProvider;
 use Doubear\Paysoul\Utils\SensitiveArray;
 use RuntimeException;
 
