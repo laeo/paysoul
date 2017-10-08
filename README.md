@@ -1,6 +1,8 @@
 # Paysoul
 简单好用的开源支付宝、微信支付SDK。
 
+[![Build Status](https://travis-ci.org/doubear/paysoul.svg?branch=develop)](https://travis-ci.org/doubear/paysoul)
+
 ## 安装
 正在开发中，可尝试使用下述命令安装。
 
