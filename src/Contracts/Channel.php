@@ -7,7 +7,7 @@ use Closure;
 /**
  * 交易接口抽象接口类
  */
-interface ChannelInterface
+interface Channel
 {
     public function deal($id, $subject, int $amount, array $extra = []);
     public function refund($id, $reqId, int $amount, int $total);

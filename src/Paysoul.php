@@ -2,10 +2,10 @@
 
 namespace Doubear\Paysoul;
 
-use Doubear\Paysoul\Channels\Alipay\Alipay;
-use Doubear\Paysoul\Channels\Wxpay\Wxpay;
-use Doubear\Paysoul\Exceptions\ChannelNotFoundException;
+use Doubear\Paysoul\Channels\Alipay\AlipayProvider;
+use Doubear\Paysoul\Channels\Wxpay\WxpayProvider;
 use Doubear\Paysoul\Utils\SensitiveArray;
+use RuntimeException;
 
 class Paysoul
 {
@@ -15,8 +15,8 @@ class Paysoul
      * @var array
      */
     protected $channels = [
-        'alipay' => Alipay::class,
-        'wxpay'  => Wxpay::class,
+        'alipay' => AlipayProvider::class,
+        'wxpay'  => WxpayProvider::class,
     ];
 
     /**
@@ -41,13 +41,13 @@ class Paysoul
      *
      * @param  string $command 渠道调用指令
      *
-     * @throws Paysoul\Exceptions\ChannelNotFoundException
+     * @throws RuntimeException
      *
      * @return Paysoul\Contracts\Channel
      */
     public function channel($command)
     {
-        $channel = $this->clean($command);
+        $channel = $this->resolveProviderFrom($command);
         $config  = $this->config->get($channel, []);
 
         if (isset($this->channels[$channel])) {
@@ -57,15 +57,15 @@ class Paysoul
             );
         }
 
-        throw new ChannelNotFoundException($channel);
+        throw new RuntimeException('unknown provider called ' . $channel);
     }
 
-    private function clean(string $channel): string
+    public function resolveProviderFrom(string $command): string
     {
-        if (false !== $pos = strpos($channel, '.')) {
-            return substr($channel, 0, $pos);
+        if (false !== $pos = strpos($command, '.')) {
+            return substr($command, 0, $pos);
         }
 
-        return $channel;
+        return $command;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Doubear\Paysoul\Channels\Alipay;
+namespace Doubear\Paysoul\Providers\Alipay;
 
 class FakeOpenSSL
 {
@@ -25,14 +25,14 @@ class FakeOpenSSL
 
     public function sign(array $params, array $ignore = [])
     {
-        openssl_sign($this->clean($params, $ignore), $sign, $this->privateCertContent, OPENSSL_ALGO_SHA256);
+        openssl_sign($this->buildString($params, $ignore), $sign, $this->privateCertContent, OPENSSL_ALGO_SHA256);
 
         return base64_encode($sign);
     }
 
     public function verify(array $data, string $sign, array $ignore = [])
     {
-        return openssl_verify($this->clean($data, $ignore), base64_decode($sign), $this->publicCertContent, OPENSSL_ALGO_SHA256);
+        return 1 === openssl_verify($this->buildString($data, $ignore), base64_decode($sign), $this->publicCertContent, OPENSSL_ALGO_SHA256);
     }
 
     protected function wrapPrivateKey(string $key)
@@ -49,7 +49,7 @@ class FakeOpenSSL
             "\n-----END PUBLIC KEY-----";
     }
 
-    protected function clean(array $params, $ignore = []): string
+    protected function buildString(array $params, $ignore = []): string
     {
         foreach ($ignore as $key) {
             unset($params[$key]);

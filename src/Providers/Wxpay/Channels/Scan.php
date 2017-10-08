@@ -1,15 +1,15 @@
 <?php
 
-namespace Doubear\Paysoul\Channels\Wxpay\Interfaces;
+namespace Doubear\Paysoul\Providers\Wxpay\Channels;
 
 use Closure;
-use Doubear\Paysoul\Contracts\ChannelInterface;
+use Doubear\Paysoul\Contracts\Channel;
 use Doubear\Paysoul\Exceptions\HttpException;
 use Doubear\Paysoul\Notify;
 use Doubear\Paysoul\Utils\HttpClient;
 use Doubear\Paysoul\Utils\SensitiveArray;
 
-class ScanInterface implements ChannelInterface
+class Scan implements Channel
 {
     protected $gateway = 'https://api.mch.weixin.qq.com';
 

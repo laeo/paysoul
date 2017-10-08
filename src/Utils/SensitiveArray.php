@@ -33,7 +33,7 @@ class SensitiveArray implements ArrayAccess
         }
 
         if ($this->__sensitive) {
-            throw new RuntimeException('unknown array index name "' . $key . '"');
+            throw new RuntimeException('unknown SensitiveArray index "' . $key . '"');
         }
 
         return $default;

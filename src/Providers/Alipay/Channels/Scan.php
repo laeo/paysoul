@@ -1,16 +1,16 @@
 <?php
 
-namespace Doubear\Paysoul\Channels\Alipay\Interfaces;
+namespace Doubear\Paysoul\Providers\Alipay\Channels;
 
 use Closure;
 use Doubear\Paysoul\Channels\Alipay\FakeOpenSSL;
-use Doubear\Paysoul\Contracts\ChannelInterface;
+use Doubear\Paysoul\Contracts\Channel;
 use Doubear\Paysoul\Exceptions\HttpException;
 use Doubear\Paysoul\Notify;
 use Doubear\Paysoul\Utils\HttpClient;
 use Doubear\Paysoul\Utils\SensitiveArray;
 
-class ScanInterface implements ChannelInterface
+class Scan implements Channel
 {
     /**
      * 正式环境的支付宝交易网关
@@ -94,7 +94,7 @@ class ScanInterface implements ChannelInterface
 
     protected function sendHttpRequest(array $payload)
     {
-        $url      = $this->gateway . '?' . http_build_query($payload);
+        $url      = $this->gateway() . '?' . http_build_query($payload);
         $response = $this->http->get($url);
 
         return $response;
