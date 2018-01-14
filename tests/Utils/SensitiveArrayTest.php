@@ -2,7 +2,7 @@
 
 namespace Tests\Utils;
 
-use Doubear\Paysoul\Utils\SensitiveArray;
+use Laeo\Paysoul\Utils\SensitiveArray;
 use Tests\TestCase;
 
 class SensitiveArrayTest extends TestCase

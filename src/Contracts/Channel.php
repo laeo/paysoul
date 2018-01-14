@@ -1,6 +1,6 @@
 <?php
 
-namespace Doubear\Paysoul\Contracts;
+namespace Laeo\Paysoul\Contracts;
 
 use Closure;
 

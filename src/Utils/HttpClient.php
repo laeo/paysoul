@@ -1,6 +1,6 @@
 <?php
 
-namespace Doubear\Paysoul\Utils;
+namespace Laeo\Paysoul\Utils;
 
 class HttpClient
 {

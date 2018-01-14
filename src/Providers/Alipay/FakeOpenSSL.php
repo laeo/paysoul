@@ -1,6 +1,6 @@
 <?php
 
-namespace Doubear\Paysoul\Providers\Alipay;
+namespace Laeo\Paysoul\Providers\Alipay;
 
 class FakeOpenSSL
 {

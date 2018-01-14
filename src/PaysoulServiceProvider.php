@@ -1,6 +1,6 @@
 <?php
 
-namespace Doubear\Paysoul;
+namespace Laeo\Paysoul;
 
 use Illuminate\Support\ServiceProvider;
 

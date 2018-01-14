@@ -1,10 +1,10 @@
 <?php
 
-namespace Doubear\Paysoul\Providers\Wxpay;
+namespace Laeo\Paysoul\Providers\Wxpay;
 
-use Doubear\Paysoul\Providers\Wxpay\Channels\Mweb;
-use Doubear\Paysoul\Providers\Wxpay\Channels\Scan;
-use Doubear\Paysoul\Utils\SensitiveArray;
+use Laeo\Paysoul\Providers\Wxpay\Channels\Mweb;
+use Laeo\Paysoul\Providers\Wxpay\Channels\Scan;
+use Laeo\Paysoul\Utils\SensitiveArray;
 use RuntimeException;
 
 class WxpayProvider

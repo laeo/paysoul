@@ -2,7 +2,7 @@
 
 namespace Tests\Providers\Alipay;
 
-use Doubear\Paysoul\Providers\Alipay\FakeOpenSSL;
+use Laeo\Paysoul\Providers\Alipay\FakeOpenSSL;
 use Tests\TestCase;
 
 class FakeOpenSSLTest extends TestCase

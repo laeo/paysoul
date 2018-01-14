@@ -1,14 +1,14 @@
 <?php
 
-namespace Doubear\Paysoul\Providers\Alipay\Channels;
+namespace Laeo\Paysoul\Providers\Alipay\Channels;
 
 use Closure;
-use Doubear\Paysoul\Providers\Alipay\FakeOpenSSL;
-use Doubear\Paysoul\Contracts\Channel;
-use Doubear\Paysoul\Exceptions\HttpException;
-use Doubear\Paysoul\Notify;
-use Doubear\Paysoul\Utils\HttpClient;
-use Doubear\Paysoul\Utils\SensitiveArray;
+use Laeo\Paysoul\Providers\Alipay\FakeOpenSSL;
+use Laeo\Paysoul\Contracts\Channel;
+use Laeo\Paysoul\Exceptions\HttpException;
+use Laeo\Paysoul\Notify;
+use Laeo\Paysoul\Utils\HttpClient;
+use Laeo\Paysoul\Utils\SensitiveArray;
 
 class Scan implements Channel
 {

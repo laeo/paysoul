@@ -1,6 +1,6 @@
 <?php
 
-namespace Doubear\Paysoul\Facades;
+namespace Laeo\Paysoul\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

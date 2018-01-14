@@ -1,10 +1,10 @@
 <?php
 
-namespace Doubear\Paysoul;
+namespace Laeo\Paysoul;
 
-use Doubear\Paysoul\Providers\Alipay\AlipayProvider;
-use Doubear\Paysoul\Providers\Wxpay\WxpayProvider;
-use Doubear\Paysoul\Utils\SensitiveArray;
+use Laeo\Paysoul\Providers\Alipay\AlipayProvider;
+use Laeo\Paysoul\Providers\Wxpay\WxpayProvider;
+use Laeo\Paysoul\Utils\SensitiveArray;
 use RuntimeException;
 
 class Paysoul

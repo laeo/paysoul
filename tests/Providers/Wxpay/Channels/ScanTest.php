@@ -2,8 +2,8 @@
 
 namespace Tests\Providers\Wxpay\Channels;
 
-use Doubear\Paysoul\Providers\Wxpay\Channels\Scan;
-use Doubear\Paysoul\Utils\SensitiveArray;
+use Laeo\Paysoul\Providers\Wxpay\Channels\Scan;
+use Laeo\Paysoul\Utils\SensitiveArray;
 use Tests\TestCase;
 
 class ScanTest extends TestCase

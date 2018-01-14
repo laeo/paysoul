@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Doubear\Paysoul\Notify;
+use Laeo\Paysoul\Notify;
 
 class NotifyTest extends TestCase
 {

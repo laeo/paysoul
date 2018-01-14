@@ -1,19 +1,21 @@
 # Paysoul
+
 简单好用的开源支付宝、微信支付SDK。
 
-[![Build Status](https://travis-ci.org/doubear/paysoul.svg?branch=develop)](https://travis-ci.org/doubear/paysoul)
+[![Build Status](https://travis-ci.org/laeo/paysoul.svg?branch=develop)](https://travis-ci.org/laeo/paysoul)
 
 ## 安装
+
 正在开发中，可尝试使用下述命令安装。
 
 ```bash
-composer require doubear/paysoul dev-develop
+composer require laeo/paysoul dev-develop
 ```
 
 ## 用法
 
 ```php
-use Doubear\Paysoul\Paysoul;
+use Laeo\Paysoul\Paysoul;
 
 //参照代码仓库中 `config` 目录下的配置文件构造配置信息
 $config = [
@@ -66,4 +68,5 @@ $paysoul->channel('alipay.scan')->notify($body, function ($channel, $notify, $ex
 - 处理异步通知 `notify`
 
 ## 协议
+
 本组建基于 MIT 协议开发，欢迎参与开发、发起合并请求。

@@ -1,12 +1,12 @@
 {
-    "name": "doubear/paysoul",
+    "name": "laeo/paysoul",
     "description": "支付宝和微信收款SDK整合",
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Doubear\\Paysoul\\": "src/"
+            "Laeo\\Paysoul\\": "src/"
         },
         "files": [
             "src/helpers.php"

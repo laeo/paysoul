@@ -1,9 +1,9 @@
 <?php
 
-namespace Doubear\Paysoul\Providers\Alipay;
+namespace Laeo\Paysoul\Providers\Alipay;
 
-use Doubear\Paysoul\Providers\Alipay\Channels\Scan;
-use Doubear\Paysoul\Utils\SensitiveArray;
+use Laeo\Paysoul\Providers\Alipay\Channels\Scan;
+use Laeo\Paysoul\Utils\SensitiveArray;
 use RuntimeException;
 
 class AlipayProvider

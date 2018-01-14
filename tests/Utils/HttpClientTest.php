@@ -2,7 +2,7 @@
 
 namespace Tests\Utils;
 
-use Doubear\Paysoul\Utils\HttpClient;
+use Laeo\Paysoul\Utils\HttpClient;
 use Tests\TestCase;
 
 class HttpClientTest extends TestCase
