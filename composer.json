@@ -19,5 +19,15 @@
         "psr-4": {
             "Tests\\": "tests/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laeo\\Paysoul\\PaysoulServiceProvider"
+            ],
+            "aliases": {
+                "Paysoul": "Laeo\\Paysoul\\Facades\\Paysoul"
+            }
+        }
     }
 }
